@@ -1,0 +1,24 @@
+# Django is a python based Framework , Fullstack(Frontend and Backend )
+
+
+# MVT Architecture 
+# Model : data, database
+# View : logic
+# Templates : User Interface 
+
+# Create virtual environment 
+python -m venv virtual_env_name
+
+# activate venv 
+virtual_env_name/Scripts/activate
+
+# install django 
+pip install django
+
+# Start project 
+django-admin startproject project_name #["." is optional]
+
+# run server
+# in manage.py [python manage.py runserver ]
+
+
