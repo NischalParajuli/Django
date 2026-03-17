@@ -1,41 +1,76 @@
-# Django is a python based Framework , Fullstack(Frontend and Backend )
+# Django: python based Framework, fullstack(frontend, backend)
 
+# MVT Architecture
+# Model: data, database
+# View: logic
+# Templates: user interface
 
-# MVT Architecture 
-# Model : data, database
-# View : logic
-# Templates : User Interface 
+# Install Virtual environment
+pip install virtualenv
 
-# Create virtual environment 
+# create virtual environment
 python -m venv virtual_env_name
+virtualenv virtual_env_name
 
-# activate venv 
+# activate venv
 virtual_env_name/Scripts/activate
+source virtual_env_name/Scripts/activate
 
-# install django 
+# install Django
 pip install django
 
-# Start project 
-django-admin startproject project_name #["." is optional]
+# startproject
+django-admin startproject project_name .      #['.' is optional]
 
 # run server
-# in manage.py [python manage.py runserver ]
+python manage.py runserver
+
+# create app
+python manage.py startapp django1
+
+# github repo
+# .gitignore
+# push the updates
 
 
+# DATABASE REQUIREMENT:
+# Todolist
+# title        CHAR 
+# description  CHAR
+# status       BOOLEAN
+# end_by       DATATIME
 
-#DATABASE
-# Project 
-#TO_DO_LIST
-  # title       CHAR
-  # Description CHAR
-  # status      BOOLEAN
-  # end_by      DATETIME
-
-
-# create migration files
+# create migrations files
 python manage.py makemigrations
 
-#Implement Changes in database
+# implement changes to database
 python manage.py migrate
 
+# create admin user/ superuser
+python manage.py createsuperuser
 
+python manage.py collectstatic   
+
+
+# CRUD (Create, Retrieve, Update, Delete) operation
+# get all data from table
+model_name.objects.all()   # in this project (Todolist.objects.all())
+model_name.objects.all().values()   # show the details of the data
+
+
+# create new data
+model_name.objects.create(field1 = "...", field2 = "....", field3 = "..." , ......)
+
+
+# single data get
+a = model_name.objects.get(id = 2)
+
+# update or edit the existing data
+a.title = "First edit"
+a.save()
+
+# delete
+a.delete()
+
+# filter the data
+model_name.objects.filter(field2 = "....",field3 = "...", .....)
