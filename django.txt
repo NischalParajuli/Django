@@ -22,3 +22,20 @@ django-admin startproject project_name #["." is optional]
 # in manage.py [python manage.py runserver ]
 
 
+
+#DATABASE
+# Project 
+#TO_DO_LIST
+  # title       CHAR
+  # Description CHAR
+  # status      BOOLEAN
+  # end_by      DATETIME
+
+
+# create migration files
+python manage.py makemigrations
+
+#Implement Changes in database
+python manage.py migrate
+
+
