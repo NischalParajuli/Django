@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Create Task{% endblock title %}
+
+{% block body %}
+<div class="container mt-4">
+  <h2>Create New Task</h2>
+
+  <!-- FIX: Added action URL so form posts to the correct endpoint -->
+  <form method="POST" action="{% url 'task-create' %}">
+    {% csrf_token %}
+
+    {% if error %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+      </div>
+    {% endif %}
+
+    <div class="mb-3">
+      <label for="taskTitle" class="form-label">Title</label>
+      <input type="text" class="form-control" name="title" id="taskTitle" placeholder="Enter task title">
+    </div>
+    <!-- FIX: Was missing closing </div> for mb-3 — broke the entire form layout -->
+
+    <div class="mb-3">
+      <label for="taskDescription" class="form-label">Description</label>
+      <textarea class="form-control" name="description" id="taskDescription" rows="3" placeholder="Enter description"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+{% endblock body %}

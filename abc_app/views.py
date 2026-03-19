@@ -1,63 +1,51 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-# Create your views here.
+from django.shortcuts import render, redirect
+from .models import Todolist
 
 
 def home(request):
-   people = [
-      {
-         "name":"ram",
-         "age":"25",
-         "contact":"98546225555"
-      },
-      {
-         "name":"abc",
-         "age":"60",
-         "contact":"98546225555"
-      },
-      {
-         "name":"ert",
-         "age":"50",
-         "contact":"98546225555"
-      },
-      {
-         "name":"ffg",
-         "age":"30",
-         "contact":"98546225555"
-      },
-      {
-         "name":"ffg",
-         "age":"30",
-         "contact":"98546225555"
-      },
-      {
-         "name":"ffg",
-         "age":"30",
-         "contact":"98546225555"
-      }
-   ]
-   context = {
-      "title": "HOME Page",
-      "body":"!!!!",
-      "PEOPLE": people
-   }
-   return render(request,'home.html',context)
-
-# home()
+    return render(request, 'home.html')
 
 
-def about_us(request):
+def aboutus(request):
+    return render(request, 'aboutus.html')
+
+
+def todolist(request):
+    tasks = Todolist.objects.all().order_by("id")
+    completed = Todolist.objects.filter(status=True).count()
+    incomplete = Todolist.objects.filter(status=False).count()
+
     context = {
-        "title":"About-us",
-        "body":"I am Nischal"
+        "tasks": tasks,
+        "complete": completed,
+        "incomplete": incomplete,
     }
-    return render(request, 'about_us.html', context)
-   
+    return render(request, 'list.html', context)
 
 
-def contact_us(request):
-    context = {
-        "title":"contact-us",
-        "body":"parajulinischal204@gmail.com"
-    }
-    return render(request, 'contact_us.html', context)
+def create(request):
+    if request.method == "POST":
+        user_title = request.POST.get('title', '').strip()
+        user_description = request.POST.get('description', '').strip()
+
+        if not user_title or not user_description:
+            context = {"error": "Both fields are required"}
+            return render(request, 'create.html', context)
+
+        Todolist.objects.create(title=user_title, description=user_description)
+        return redirect('task-list')
+
+    return render(request, 'create.html')
+
+
+def delete(request, id):
+    task = Todolist.objects.get(id=id)
+    task.delete()
+    return redirect('task-list')
+
+
+def toggle(request, id):
+    task = Todolist.objects.get(id=id)
+    task.status = not task.status
+    task.save()
+    return redirect('task-list')

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Todo List{% endblock title %}
+
+{% block body %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Todo List</h2>
+    <a href="{% url 'task-create' %}" class="btn btn-success">+ New Task</a>
+  </div>
+
+  <!-- Stats -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-bg-secondary">
+        <div class="card-body">Total: <strong>{{ tasks|length }}</strong></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-bg-success">
+        <div class="card-body">Completed: <strong>{{ complete }}</strong></div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-bg-danger">
+        <div class="card-body">Incomplete: <strong>{{ incomplete }}</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Table -->
+  {% if tasks %}
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Mark</th>
+        <th>id</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+      <tr class="{% if task.status %}table-success{% endif %}">
+        <td>
+          <form method="POST" action="{% url 'task-toggle' task.id %}">
+            {% csrf_token %}
+            <input type="checkbox"
+                   {% if task.status %}checked{% endif %}
+                   onchange="this.form.submit()"
+                   style="width:18px; height:18px; cursor:pointer;">
+          </form>
+        </td>
+        <td>{{ forloop.counter }}</td>
+        <td style="{% if task.status %}text-decoration:line-through; color:#888;{% endif %}">
+          {{ task.title }}
+        </td>
+        <td style="{% if task.status %}text-decoration:line-through; color:#888;{% endif %}">
+          {{ task.description }}
+        </td>
+        <td>
+          {% if task.status %}
+            <span class="badge bg-success">Completed</span>
+          {% else %}
+            <span class="badge bg-danger">Pending</span>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'task-delete' task.id %}"
+             class="btn btn-danger btn-sm"
+             onclick="return confirm('Delete this task?')">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <div class="alert alert-info">No tasks yet. <a href="{% url 'task-create' %}">Create one!</a></div>
+  {% endif %}
+</div>
+{% endblock body %}

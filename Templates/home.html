@@ -1,31 +1,152 @@
 {% extends "base.html" %}
 
-{% block title %}{{title}}{% endblock title %}
+{% block title %}{{ title }}{% endblock title %}
 
 {% block body %}
-   <h1>{{body}}</h1>
 
-   <div class = "container">
-      <table class="table">
-         <thead>
-            <tr>
-               <th scope="col">id</th>
-               <th scope="col">Name</th>
-               <th scope="col">Age</th>
-               <th scope="col">Contact</th>
-            </tr>
-         </thead>
-         <tbody>
-            {% for person in PEOPLE %}
-            <tr>
-               <th scope="row">{{forloop.counter}}</th>
-               <td>{{person.name}}</td>
-               <td>{{person.age}}</td>
-               <td>{{person.contact}}</td>
-            </tr>
-            {% endfor %}
-         </tbody>
-         </table>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap');
 
-   </div>
+  .home-wrapper {
+    min-height: calc(100vh - 56px);
+    background: #0f0f0f;
+    color: #f0ece4;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero {
+    position: relative;
+    width: 100%;
+    padding: 80px 0;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -150px;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,200,66,0.09) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -200px; left: -150px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,200,66,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #f5c842;
+    border: 1px solid rgba(245,200,66,0.35);
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: #f0ece4;
+    margin-bottom: 24px;
+  }
+  .hero-title span { color: #f5c842; }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: #666;
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 44px;
+  }
+
+  .cta-group { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-gold {
+    background: #f5c842;
+    color: #0f0f0f;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 13px 32px;
+    border-radius: 6px;
+    border: none;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-gold:hover { background: #ffd84d; color: #0f0f0f; transform: translateY(-2px); }
+  .btn-outline-custom {
+    background: transparent;
+    color: #f0ece4;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    padding: 13px 32px;
+    border-radius: 6px;
+    border: 1px solid rgba(240,236,228,0.2);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline-custom:hover {
+    border-color: #f5c842;
+    color: #f5c842;
+    background: rgba(245,200,66,0.05);
+    transform: translateY(-2px);
+  }
+
+  .big-word {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(8rem, 18vw, 18rem);
+    font-weight: 900;
+    color: rgba(245,200,66,0.04);
+    line-height: 1;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+</style>
+
+<div class="home-wrapper">
+  <div class="container">
+    <div class="hero">
+
+      <!-- Decorative background word -->
+      <div class="big-word">Todolist</div>
+
+      <div class="hero-label">Task Manager</div>
+      <h1 class="hero-title">Your<br><span>Todolist.</span></h1>
+      <p class="hero-sub">A clean, simple space to capture what needs to be done — create tasks, check them off, stay on track.</p>
+      <div class="cta-group">
+        <a href="{% url 'task-create' %}" class="btn-gold">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Create Task
+        </a>
+        <a href="{% url 'task-list' %}" class="btn-outline-custom">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          View List
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 {% endblock body %}
