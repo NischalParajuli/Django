@@ -49,3 +49,24 @@ def toggle(request, id):
     task.status = not task.status
     task.save()
     return redirect('task-list')
+
+
+def update(request, id):
+    task = Todolist.objects.get(id=id)
+
+    if request.method == 'POST':
+        user_title = request.POST.get('title', '').strip()
+        user_description = request.POST.get('description', '').strip()
+
+        if not user_title or not user_description:
+            context = {'task': task, 'error': 'Both fields are required'}
+            return render(request, 'update.html', context)
+
+        task.title = user_title
+        task.description = user_description
+        task.save()
+        return redirect('task-list')
+
+   
+    context = {'task': task}
+    return render(request, 'update.html', context)
